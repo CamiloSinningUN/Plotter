@@ -5,6 +5,7 @@
  */
 package graficador;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
@@ -18,7 +19,7 @@ public class Graficar {
         ArrayList<Equation> result = new ArrayList<>();
         String v[] = Equation.split(" ");
         boolean negativo = false;
-        
+
         for (int i = 0; i < v.length; i++) {
             Equation eq = new Equation();
             try {
@@ -31,25 +32,31 @@ public class Graficar {
                     eq.exp = 0;
                 }
             } catch (NumberFormatException e) {
-                
+
                 if (v[i].equals("-")) {
                     negativo = true;
                 }
                 if ((!v[i].contains("**")) && (v[i].contains("*"))) {
-                    String subV[] = v[i].split("*");
+                    String subV[] = v[i].split("\\*");
                     eq.constant = Integer.parseInt(subV[0]);
+                    eq.exp = 1; 
                 }
                 if (v[i].contains("**")) {
-                    String subV[] = v[i].split("*");
-                    eq.exp = Integer.parseInt(subV[subV.length].substring(0));
+                    String subV[] = v[i].split("\\*");
+                    eq.exp = Integer.parseInt(subV[subV.length-1].substring(0));
+                    eq.constant= 1;
+                    //System.out.println("exp 0 es: "+eq.exp);
                 }
                 if (v[i].contains("/")) {
                     //puede ser solo un numero
                     //o un numero que multiplica
                     //o un elevado
-                    
-                    //Se hara de ultimo 
 
+                    //Se hara de ultimo 
+                }
+                if(v[i].equals("x")){
+                    eq.constant = 1;
+                    eq.exp = 1;
                 }
             }
             result.add(eq);
@@ -58,13 +65,29 @@ public class Graficar {
         return result;
     }
 
-    public static ArrayList<Par> calc(ArrayList<Equation> eq, JPanel panel) {
-        
+    public static ArrayList<Par> calc(ArrayList<Equation> eq) {
         ArrayList<Par> result = new ArrayList<>();
-        for (int i = 0; i < panel.getHeight()/10; i+=10) {
+        double y;
+       
+        for (int j = -10; j < 10; j++) {
+            y = 0;
+            for (Equation e : eq) {
+                System.out.println("exp es: "+e.exp);
+                y = y + e.constant * Math.pow(j, e.exp);
+            }
             
+            Par p = new Par(j,y);  
+            System.out.println("par es: "+j+","+y);
+            result.add(p);
         }
-        
-        return null;
+        return result;
+    }
+    
+    public static void Draw(ArrayList<Par> pares, JPanel panel){
+        Graphics g = panel.getGraphics();
+        for (Par p : pares) {
+            g.fillOval((int)Cartesian.getx((int)p.x), (int) Cartesian.gety((int)p.y), 2, 2);
+            //System.out.println("x es: "+(int)Cartesian.getx((int)p.x)+" y es: "+(int) Cartesian.gety((int)p.y));
+        }
     }
 }
