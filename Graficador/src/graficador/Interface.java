@@ -23,6 +23,7 @@ public class Interface extends javax.swing.JFrame {
         DefaultListModel demoList = new DefaultListModel();       
         List.setModel(demoList);        
         setSize(790,425);
+        setLocationRelativeTo(null);
     }
 
     /**

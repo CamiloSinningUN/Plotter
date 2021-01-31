@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JPanel;
@@ -117,12 +118,12 @@ public class Graficar {
         for (double j = -100; j < 100; j += 0.25) {
             y = 0;
             for (Equation e : eq) {
-                System.out.println("exp es: " + e.exp);
+                //System.out.println("exp es: " + e.exp);
                 y = y + e.constant * Math.pow(j, e.exp);
             }
 
             Par p = new Par(j, y);
-            System.out.println("par es: " + j + "," + y);
+            //System.out.println("par es: " + j + "," + y);
             result.add(p);
         }
         return result;
@@ -159,11 +160,30 @@ public class Graficar {
                 g.setColor(Color.YELLOW);
                 break;
         }
-
+        
+        ArrayList<Par> drew = new ArrayList<>();
         for (Par p : pares) {
-            g2d.draw(new Ellipse2D.Double(Cartesian.getx(p.x), Cartesian.gety(p.y), 2, 2));
+            double x = Cartesian.getx(p.x);
+            double y = Cartesian.gety(p.y);
+            //g2d.draw(new Ellipse2D.Double(x, y, 1, 1));
+            if (!(x == 1000) && !(y == 1000)) {
+                Par n = new Par(x, y);
+                drew.add(n);
+            }
+
             //g.fillOval( Cartesian.getx(p.x),  Cartesian.gety(p.y), 2, 2);
-            //System.out.println("x es: "+(int)Cartesian.getx((int)p.x)+" y es: "+(int) Cartesian.gety((int)p.y));
+            //System.out.println("x es: "+Cartesian.getx(p.x)+" y es: "+Cartesian.gety(p.y));
         }
+        
+        int i = 0;
+        do {
+            double x = drew.get(i).x;
+            double y = drew.get(i).y + 5;
+            double x1 = drew.get(i + 1).x;
+            double y1 = drew.get(i + 1).y + 5 ;
+            g2d.draw(new Line2D.Double(x, y, x1, y1));
+            i++;
+        } while (i < drew.size() - 1);
+
     }
 }
