@@ -31,7 +31,7 @@ public class Graficar {
             try {
                 if ((v[i].contains("/")) && (!v[i].contains("x"))) {
                     float fraccion = fracciones(v[i]);
-                     if (!negativo) {
+                    if (!negativo) {
                         eq.constant = fraccion;
                         eq.exp = 0;
                     } else {
@@ -51,18 +51,17 @@ public class Graficar {
 
             } catch (NumberFormatException e) {
 
-                //3*x**2 ese caso no existe
-                
+                //n*x**m ese caso no existe
                 if (v[i].equals("-")) {
                     negativo = true;
                 }
                 if ((!v[i].contains("**")) && (v[i].contains("*"))) {
                     String subV[] = v[i].split("\\*");
                     float number;
-                    try{
-                       number  = Integer.parseInt(subV[0]);
-                    }catch(NumberFormatException es){
-                        number = fracciones (subV[0]);
+                    try {
+                        number = Integer.parseInt(subV[0]);
+                    } catch (NumberFormatException es) {
+                        number = fracciones(subV[0]);
                     }
                     eq.constant = number;
                     eq.exp = 1;
@@ -70,13 +69,25 @@ public class Graficar {
                 if (v[i].contains("**")) {
                     String subV[] = v[i].split("\\*");
                     float number;
-                    try{
-                       number  = Integer.parseInt(subV[subV.length - 1].substring(0));
-                    }catch(NumberFormatException es){
-                        number = fracciones (subV[subV.length - 1].substring(0));
+                    try {
+                        number = Integer.parseInt(subV[subV.length - 1].substring(0));
+                    } catch (NumberFormatException es) {
+                        number = fracciones(subV[subV.length - 1].substring(0));
                     }
                     eq.exp = number;
-                    eq.constant = 1;
+
+                    if (subV[0].equals("x")) {
+                        eq.constant = 1;
+                    } else {
+                        float consts;
+                        try {
+                            consts = Integer.parseInt(subV[0]);
+                        } catch (NumberFormatException es) {
+                            consts = fracciones(subV[0]);
+                        }
+                        eq.constant = consts;
+                    }
+
                     //System.out.println("exp 0 es: "+eq.exp);
                 }
                 if (v[i].equals("x")) {
