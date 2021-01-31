@@ -7,6 +7,9 @@ package graficador;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JPanel;
@@ -24,37 +27,57 @@ public class Graficar {
 
         for (int i = 0; i < v.length; i++) {
             Equation eq = new Equation();
+
             try {
-                int c = Integer.parseInt(v[i]);
-                if (!negativo) {
-                    eq.constant = c;
-                    eq.exp = 0;
+                if ((v[i].contains("/")) && (!v[i].contains("x"))) {
+                    float fraccion = fracciones(v[i]);
+                     if (!negativo) {
+                        eq.constant = fraccion;
+                        eq.exp = 0;
+                    } else {
+                        eq.constant = -fraccion;
+                        eq.exp = 0;
+                    }
                 } else {
-                    eq.constant = -c;
-                    eq.exp = 0;
+                    float c = Integer.parseInt(v[i]);
+                    if (!negativo) {
+                        eq.constant = c;
+                        eq.exp = 0;
+                    } else {
+                        eq.constant = -c;
+                        eq.exp = 0;
+                    }
                 }
+
             } catch (NumberFormatException e) {
 
+                //3*x**2 ese caso no existe
+                
                 if (v[i].equals("-")) {
                     negativo = true;
                 }
                 if ((!v[i].contains("**")) && (v[i].contains("*"))) {
                     String subV[] = v[i].split("\\*");
-                    eq.constant = Integer.parseInt(subV[0]);
+                    float number;
+                    try{
+                       number  = Integer.parseInt(subV[0]);
+                    }catch(NumberFormatException es){
+                        number = fracciones (subV[0]);
+                    }
+                    eq.constant = number;
                     eq.exp = 1;
                 }
                 if (v[i].contains("**")) {
                     String subV[] = v[i].split("\\*");
-                    eq.exp = Integer.parseInt(subV[subV.length - 1].substring(0));
+                    float number;
+                    try{
+                       number  = Integer.parseInt(subV[subV.length - 1].substring(0));
+                    }catch(NumberFormatException es){
+                        number = fracciones (subV[subV.length - 1].substring(0));
+                    }
+                    eq.exp = number;
                     eq.constant = 1;
                     //System.out.println("exp 0 es: "+eq.exp);
-                }
-                if (v[i].contains("/")) {
-                    //puede ser solo un numero
-                    //o un numero que multiplica
-                    //o un elevado
-
-                    //Se hara de ultimo 
                 }
                 if (v[i].equals("x")) {
                     eq.constant = 1;
@@ -67,11 +90,20 @@ public class Graficar {
         return result;
     }
 
+    public static float fracciones(String fraci) {
+        String frac[] = fraci.split("/");
+        String num = frac[0];
+        String dem = frac[1];
+        float result = Float.parseFloat(num) / Float.parseFloat(dem);
+
+        return result;
+    }
+
     public static ArrayList<Par> calc(ArrayList<Equation> eq) {
         ArrayList<Par> result = new ArrayList<>();
         double y;
 
-        for (int j = -Cartesian.presicion * 2; j < Cartesian.presicion * 2; j += 1) {
+        for (double j = -100; j < 100; j += 0.25) {
             y = 0;
             for (Equation e : eq) {
                 System.out.println("exp es: " + e.exp);
@@ -87,6 +119,8 @@ public class Graficar {
 
     public static void Draw(ArrayList<Par> pares, JPanel panel) {
         Graphics g = panel.getGraphics();
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         Random r = new Random();
         int color = r.nextInt(5 - 0) + 0;
         switch (color) {
@@ -99,7 +133,7 @@ public class Graficar {
                 break;
 
             case 2:
-                g.setColor(Color.BLACK);
+                g.setColor(Color.GRAY);
                 break;
 
             case 3:
@@ -116,7 +150,8 @@ public class Graficar {
         }
 
         for (Par p : pares) {
-            g.fillOval((int) Cartesian.getx((int) p.x), (int) Cartesian.gety((int) p.y), 2, 2);
+            g2d.draw(new Ellipse2D.Double(Cartesian.getx(p.x), Cartesian.gety(p.y), 2, 2));
+            //g.fillOval( Cartesian.getx(p.x),  Cartesian.gety(p.y), 2, 2);
             //System.out.println("x es: "+(int)Cartesian.getx((int)p.x)+" y es: "+(int) Cartesian.gety((int)p.y));
         }
     }
