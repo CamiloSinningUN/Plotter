@@ -21,6 +21,70 @@ import javax.swing.JPanel;
  */
 public class Graficar {
 
+    public static Equation equation(Equation eq, String[] v, boolean negativo, int i){
+        if ((v[i].contains("/")) && (!v[i].contains("x"))) {
+            float fraccion = fracciones(v[i]);
+            if (!negativo) {
+                eq.constant = fraccion;
+                eq.exp = 0;
+            } else {
+                eq.constant = -fraccion;
+                eq.exp = 0;
+            }
+        } else {
+            float c = Integer.parseInt(v[i]);
+            if (!negativo) {
+                eq.constant = c;
+                eq.exp = 0;
+            } else {
+                eq.constant = -c;
+                eq.exp = 0;
+            }
+        }
+        return eq;
+    }
+    public static boolean negative(String[] v, int i){
+        return v[i].contains("-");
+    }
+    public static Equation powerTimes (Equation eq,String[] v, int i){
+        if ((!v[i].contains("**")) && (v[i].contains("*"))) {
+            String subV[] = v[i].split("\\*");
+            float number;
+            try {
+                number = Integer.parseInt(subV[0]);
+            } catch (NumberFormatException es) {
+                number = fracciones(subV[0]);
+            }
+            eq.constant = number;
+            eq.exp = 1;
+        }
+        return eq;
+    }
+    public static Equation power(Equation eq,String[] v, int i){
+        if (v[i].contains("**")) {
+            String subV[] = v[i].split("\\*");
+            float number;
+            try {
+                number = Integer.parseInt(subV[subV.length - 1].substring(0));
+            } catch (NumberFormatException es) {
+                number = fracciones(subV[subV.length - 1].substring(0));
+            }
+            eq.exp = number;
+
+            if (subV[0].equals("x")) {
+                eq.constant = 1;
+            } else {
+                float consts;
+                try {
+                    consts = Integer.parseInt(subV[0]);
+                } catch (NumberFormatException es) {
+                    consts = fracciones(subV[0]);
+                }
+                eq.constant = consts;
+            }
+        }
+        return eq;
+    }
     public static ArrayList<Equation> ParseEquation(String Equation) {
         ArrayList<Equation> result = new ArrayList<>();
         String v[] = Equation.split(" ");
@@ -30,67 +94,12 @@ public class Graficar {
             Equation eq = new Equation();
 
             try {
-                if ((v[i].contains("/")) && (!v[i].contains("x"))) {
-                    float fraccion = fracciones(v[i]);
-                    if (!negativo) {
-                        eq.constant = fraccion;
-                        eq.exp = 0;
-                    } else {
-                        eq.constant = -fraccion;
-                        eq.exp = 0;
-                    }
-                } else {
-                    float c = Integer.parseInt(v[i]);
-                    if (!negativo) {
-                        eq.constant = c;
-                        eq.exp = 0;
-                    } else {
-                        eq.constant = -c;
-                        eq.exp = 0;
-                    }
-                }
-
+                eq = equation(eq, v, negativo, i);
             } catch (NumberFormatException e) {
-
                 //n*x**m ese caso no existe
-                if (v[i].equals("-")) {
-                    negativo = true;
-                }
-                if ((!v[i].contains("**")) && (v[i].contains("*"))) {
-                    String subV[] = v[i].split("\\*");
-                    float number;
-                    try {
-                        number = Integer.parseInt(subV[0]);
-                    } catch (NumberFormatException es) {
-                        number = fracciones(subV[0]);
-                    }
-                    eq.constant = number;
-                    eq.exp = 1;
-                }
-                if (v[i].contains("**")) {
-                    String subV[] = v[i].split("\\*");
-                    float number;
-                    try {
-                        number = Integer.parseInt(subV[subV.length - 1].substring(0));
-                    } catch (NumberFormatException es) {
-                        number = fracciones(subV[subV.length - 1].substring(0));
-                    }
-                    eq.exp = number;
-
-                    if (subV[0].equals("x")) {
-                        eq.constant = 1;
-                    } else {
-                        float consts;
-                        try {
-                            consts = Integer.parseInt(subV[0]);
-                        } catch (NumberFormatException es) {
-                            consts = fracciones(subV[0]);
-                        }
-                        eq.constant = consts;
-                    }
-
-                    //System.out.println("exp 0 es: "+eq.exp);
-                }
+                negativo = negative(v, i);
+                eq = powerTimes(eq, v, i);
+                eq = power(eq, v, i);
                 if (v[i].equals("x")) {
                     eq.constant = 1;
                     eq.exp = 1;
@@ -158,6 +167,9 @@ public class Graficar {
 
             case 5:
                 g.setColor(Color.YELLOW);
+                break;
+            default:
+                System.out.println("error");
                 break;
         }
         
