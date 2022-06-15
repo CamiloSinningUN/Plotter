@@ -44,4 +44,4 @@ In the Apache NetBeans IDE open the project and run it regularly.
 
 * **Camilo Sinning** - *Design - Programming* - [CamiloSinningUN](https://github.com/CamiloSinningUN)
 
-See the list of all the [contributors](https://github.com/CamiloSinningUN/Graficador/contributors) who have participated in this project.
+See the list of all the [contributors](https://github.com/CamiloSinningUN/Plotter/contributors) who have participated in this project.
