@@ -1,48 +1,47 @@
-# Graficador
+# Plotter
 
-Graficador de funciones hecho en java con la IDE apache netbeans.
+Function grapher made in java with apache netbeans IDE.
 
-## Comenzando 🚀
+## Preview
 
-Puede obtener una copia del proyecto simplemente descargandolo desde este repositorio.
+![Screenshot 2021-01-31 001008](https://user-images.githubusercontent.com/61607058/106375263-b16e4d80-6358-11eb-8067-101512651ddf.jpg)
 
-Mira **Despliegue** para conocer como desplegar el proyecto.
+## Starting 🚀
 
-### Pre-requisitos 📋
+You can get a copy of the project simply by downloading it from this repository.
 
-El proyecto fue desarrollado en Apache NetBeans 11.3 en el lenguaje de programación java, por lo tanto es necesario tener el SDK correspondiente.
+See **Deployment** to learn how to deploy the project.
 
-* Para obtener Apache Netbeans 11.3 visitar: https://netbeans.apache.org/download/nb126/nb126.html
-* Para obtener el JDK visitar: https://openjdk.java.net/projects/jdk8/
+### Pre-requisites 📋
 
-### Instalación 🔧
+The project was developed in Apache NetBeans 11.3 in the java programming language, therefore it is necessary to have the corresponding SDK.
 
-Para la correcta instalación de los recursos necesarios seguir los pasos indicados en: https://netbeans.apache.org/download/nb126/nb126.html
+* To get Apache Netbeans 11.3 visit: https://netbeans.apache.org/download/nb126/nb126.html
+* To get the JDK visit: https://openjdk.java.net/projects/jdk8/
 
-## Despliegue 📦
+### Installation 🔧
 
-En el IDE Apache NetBeans abrir el poryecto y ejecutarlo de forma regular.
+For the correct installation of the necessary resources, follow the steps indicated in: https://netbeans.apache.org/download/nb126/nb126.html
 
-### Manual de uso
+## Deployment 📦
 
-- Cada monomio debe estar estar separado por un espacio
-- Cada simbolo de operación debe estar separado por un espacio
-- La constante que multiplica cada varible debe tener su respectivo signo de multiplicacion
-- El simbolo para elevar es: **
-- Las raices se realizan haciendo un elevado ha determinada fraccion
+In the Apache NetBeans IDE open the project and run it regularly.
 
-### Ejemplo
+### User Manual
 
-![Captura de pantalla 2021-01-31 001008](https://user-images.githubusercontent.com/61607058/106375263-b16e4d80-6358-11eb-8067-101512651ddf.jpg)
+- Each monomial must be separated by a space
+- Each operation symbol must be separated by a space
+- The constant that multiplies each variable must have its respective multiplication sign
+- The symbol to raise is: **
+- The roots are made by making an elevation has a certain fraction
 
-## Construido con 🛠️
+## Built with 🛠️
 
 * Apache Netbeans - IDE
 * Absolute layout - Library
 
-## Autores ✒️
+## Authors ✒️
 
-* **Camilo Sinning** - *Diseño - Programación* - [CamiloSinningUN](https://github.com/CamiloSinningUN)
+* **Camilo Sinning** - *Design - Programming* - [CamiloSinningUN](https://github.com/CamiloSinningUN)
 
-Mirar la lista de todos los [contribuyentes](https://github.com/CamiloSinningUN/Graficador/contributors) quíenes han participado en este proyecto. 
-
+See the list of all the [contributors](https://github.com/CamiloSinningUN/Graficador/contributors) who have participated in this project.
